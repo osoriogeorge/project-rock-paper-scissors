@@ -1,81 +1,47 @@
-const message = prompt('Elija piedra, papel o tijeras');
-const messageElection = message.toLowerCase();
-
 const options = ['piedra', 'papel', 'tijeras'];
-
-const rdm = Math.random() * options.length;
-const index = Math.floor(rdm);
-const computerChoix = options[index];
+let humanScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
-  return computerChoix;
+  const index = Math.floor(Math.random() * options.length);
+  return options[index];
 }
-
-console.log(computerChoix);
+console.log('COMPUTER ' + getComputerChoice());
 
 function getHumanChoice() {
+  const message = prompt('Elija piedra, papel o tijeras');
+  const messageElection = message.toLowerCase();
+
   return messageElection;
 }
 
-console.log('USER ' + messageElection);
-/*
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-
-function playRound(getHumanChoice, getComputerChoice) {
-  let humanScore = 0;
-  let computerScore = 0;
-
-  if (getHumanChoice == getComputerChoice) {
-    console.log(
-      'Empate,' + computerSelection + ' es igual a ' + humanSelection
-    );
-  } else if (getHumanChoice !== getComputerChoice) {
-    computerScore++;
-    console.log('Perdiste,' + computerSelection + ' gana a ' + humanSelection);
-  } else {
-    humanScore++;
-    console.log('Ganaste,' + humanSelection + ' gana a ' + computerSelection);
-  }
-}
-
-playRound(humanSelection, computerSelection);
-*/
-
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+console.log('USER ' + getHumanChoice());
 
 function playRound(humanSelection, computerSelection) {
-  let humanScore = 0;
-  let computerScore = 0;
-
   if (humanSelection === computerSelection) {
-    return console.log('The game is a tie!');
+    console.log('The game is a tie!');
+    return 'tie';
   }
-
-  if (humanSelection === 'piedra') {
-    if (computerSelection === 'papel') {
-      return console.log('Has perdido!');
-    } else {
-      return console.log('Has ganado!');
-    }
-  }
-
-  if (humanSelection === 'papel') {
-    if (computerSelection === 'tijeras') {
-      return console.log('Has perdido!');
-    } else {
-      return console.log('Has ganado!');
-    }
-  }
-
-  if (humanSelection === 'tijeras') {
-    if (computerSelection === 'piedra') {
-      return console.log('Has perdido!');
-    } else {
-      return console.log('Has ganado!');
-    }
+  if (
+    (humanSelection === 'piedra' && computerSelection === 'tijeras') ||
+    (humanSelection === 'papel' && computerSelection === 'piedra') ||
+    (humanSelection === 'tijeras' && computerSelection === 'papel')
+  ) {
+    console.log('You won!');
+    humanScore++;
+    return 'human';
+  } else {
+    console.log('You lost!');
+    computerScore++;
+    return 'computer';
   }
 }
-
-playRound(humanSelection, computerSelection);
+for (let i = 0; i < 5; i++) {
+  const humanChoice = getHumanChoice();
+  const computerChoice = getComputerChoice();
+  playRound(humanChoice, computerChoice);
+  console.log(
+    `Round ${i + 1}: Human: ${humanChoice} - Computer: ${computerChoice}`
+  );
+}
+console.log(`Final Score - Human: ${humanScore}, Computer: ${computerScore}`);
